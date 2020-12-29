@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.aashitha.net/StocksDetailsService/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="StocksDetailsService" targetNamespace="http://www.aashitha.net/StocksDetailsService/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.aashitha.net/StocksDetailsService/">
+      <xsd:element name="getStockDetails">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="stockname" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getStockDetailsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+          	<xsd:element name="id" type="xsd:int"></xsd:element>
+          	<xsd:element name="stockname" type="xsd:string" />
+          	<xsd:element name="companyname" type="xsd:string"></xsd:element>
+          	<xsd:element name="websiteUrl" type="xsd:string"></xsd:element>
+          	<xsd:element name="address" type="xsd:string"></xsd:element>
+          	<xsd:element name="regId" type="xsd:string"></xsd:element>
+          	<xsd:element name="ownerName" type="xsd:string"></xsd:element>
+          	<xsd:element name="emailId" type="xsd:string"></xsd:element>
+          	<xsd:element name="phoneNum" type="xsd:string"></xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addStockDetails">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="stockname" type="xsd:string"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addStockDetailsResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="id" type="xsd:int"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getStockDetailsRequest">
+    <wsdl:part element="tns:getStockDetails" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getStockDetailsResponse">
+    <wsdl:part element="tns:getStockDetailsResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="addStockDetailsRequest">
+  	<wsdl:part name="parameters" element="tns:addStockDetails"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addStockDetailsResponse">
+  	<wsdl:part name="parameters" element="tns:addStockDetailsResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="StocksDetailsService">
+    <wsdl:operation name="getStockDetails">
+      <wsdl:input message="tns:getStockDetailsRequest"/>
+      <wsdl:output message="tns:getStockDetailsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="addStockDetails">
+    	<wsdl:input message="tns:addStockDetailsRequest"></wsdl:input>
+    	<wsdl:output message="tns:addStockDetailsResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="StocksDetailsServiceSOAP" type="tns:StocksDetailsService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getStockDetails">
+      <soap:operation soapAction="http://www.aashitha.net/StocksDetailsService/getStockDetails"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="StocksDetailsService">
+    <wsdl:port binding="tns:StocksDetailsServiceSOAP" name="StocksDetailsServiceSOAP">
+      <soap:address location="http://localhost:8088/ws/stockdetails"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
