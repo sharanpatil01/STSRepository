@@ -70,6 +70,7 @@ public class STSFileUtils {
 
 	}
 
+	@SuppressWarnings("unused")
 	private static void writeFiles(String filename, String outfilename) throws IOException {
 		String stock, volume, tradedate, open, high, low, close;
 		int ctr = 0;
@@ -88,6 +89,7 @@ public class STSFileUtils {
 
 	}
 
+	@SuppressWarnings("unused")
 	public void givenCSVFile_whenRead_thenContentsAsExpected(String filename) throws IOException {
 		String stock, volume, tradedate, open, high, low, close;
 
@@ -115,6 +117,7 @@ public class STSFileUtils {
 
 	}
 
+	@SuppressWarnings("unused")
 	private static void readFiles(String filename) throws IOException {
 		Reader in = new FileReader(filename);
 		Iterable<CSVRecord> records = CSVFormat.DEFAULT.parse(in);
@@ -125,6 +128,7 @@ public class STSFileUtils {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static void updateHeaders(String filename) {
 		FileWriter out;
 		try {
@@ -141,6 +145,7 @@ public class STSFileUtils {
 
 	static Map<String, String> STOCK_MAP = new HashMap<String, String>();
 
+	@SuppressWarnings("unused")
 	private static void readCSVFile(String filename) {
 		STOCK_MAP.put("20MICRONS", "298100");
 		STOCK_MAP.put("21STCENMGM", "73200");

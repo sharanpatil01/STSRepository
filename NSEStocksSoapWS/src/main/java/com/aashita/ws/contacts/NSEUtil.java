@@ -1,9 +1,7 @@
 package com.aashita.ws.contacts;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 public class NSEUtil {
