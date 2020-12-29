@@ -1,0 +1,42 @@
+Project Doc:
+
+This project is tool to add header as mentioned in - Step 3.
+
+
+1. download the bhavcopy file using hemanth's app \sharans\software\bhavcopyDownloader3.9
+
+2. nse data file will be loaded at folder like : C:\workspaces\bhavcopy\2020-12-28-NSE-EQ.txt
+
+3. run the java tool to add header, and copy file to the 'workspaces\bhavcopyarchive' folder, from where MULE will pick up.
+		java -jar nsefileupload-japp-1.0-v1.jar  C:\workspaces\bhavcopy\2020-12-28-NSE-EQ.txt
+		available in (\workspaces\msworkspace4\NSEDailyDataUpload2Mysql\target)
+		data file folders: 
+		a. C:\workspaces\bhavcopy  b. C:\workspaces\bhavcopyarchive  c. C:\workspaces\bhavcopybackupHdr
+		
+4. start the mysql database server (mysqld)
+
+5. Start the Mule STS App; it should load the file to Mysql.NSE.Ohlc5 table.
+
+
+STS IDE -  SOAP/REST SERVICE (JAVA TOOL) 
+rest service calling Mysql.NSE.ohlc5 table.
+soap service with wsdl, trying to connect ohlc5 table (now dummy data/functions)
+
+
+Mule STS calling above rest & soap, 
+b. mule app crated using wsdl, with dummy implementation flow.
+
+
+
+
+>> code:
+1. Mule STS app
+2. NSE data loader tool (header appender).
+3. hemanth's nse download tool << 3rd party.
+4. STS 3 app; rest, soap service and tool 2.
+5. Mule STS has clients..
+
+
+
+
+
