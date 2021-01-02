@@ -6,22 +6,22 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.aashita.random.model.Person;
+import com.aashita.random.model.PersonWithAddress;
 
 public class PersonWriter {
 
-	public List<Person> getPersons(final int count) {
+	public List<PersonWithAddress> getPersons(final int count) {
 		String fname, lname, city, state;
 		RandomUtil ru = new RandomUtil();
-		List<Person> personsList = new ArrayList<Person>();
-		Person prsn;
-		ru.println("Testing random Person names");
+		List<PersonWithAddress> personsList = new ArrayList<PersonWithAddress>();
+		PersonWithAddress prsn;
+		ru.println("Testing random PersonWithAddress names");
 		for (int i = 0; i < count; i++) {
 			fname = ru.getRandomFName();
 			lname = ru.getRandomLName();
 			city = ru.getRandomCity();
 			state = ru.getRandomState();
-			prsn = new Person(fname, lname, city, state);
+			prsn = new PersonWithAddress(fname, lname, city, state);
 			prsn.setId(ru.getRandomId());
 			prsn.setZipcode(ru.getRandomZipCode());
 
@@ -31,7 +31,7 @@ public class PersonWriter {
 		return personsList;
 	}
 
-	public String getInsertQuery(Person prsn) {
+	public String getInsertQuery(PersonWithAddress prsn) {
 		StringBuilder query = new StringBuilder("");
 		query.append("INSERT INTO SRNPERSONS VALUES ('");
 		query.append(prsn.getId()).append("','");
@@ -45,7 +45,7 @@ public class PersonWriter {
 		return query.toString();
 	}
 
-	public void insertPerson(Person prsn, Connection con) throws SQLException {
+	public void insertPerson(PersonWithAddress prsn, Connection con) throws SQLException {
 		String sql = getInsertQuery(prsn);
 		Statement st = con.createStatement();
 		st.execute(sql);
@@ -56,7 +56,7 @@ public class PersonWriter {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Person p1 = new Person();
+		PersonWithAddress p1 = new PersonWithAddress();
 
 		p1.setId("100");
 		p1.setfName("Sharan");
