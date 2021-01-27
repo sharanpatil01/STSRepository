@@ -15,15 +15,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aashita.random.model.Employee;
 import com.aashita.random.model.Person;
 
+@RequestMapping("/api/v1")
 @RestController
 public class EmployeesApi {
-
+	private static final int MAX_EMPLOYEES = 300;
 	private static ArrayList<Employee> empList = new ArrayList<Employee>();
 	private ArrayList<Employee> empArr = new ArrayList<Employee>();
 
@@ -38,7 +40,7 @@ public class EmployeesApi {
 			RandomPersons rp = new RandomPersons();
 			Optional<String> randomId = Optional.of("true-not");
 
-			List<Person> listPerson = rp.getRandomPersonsByNum(10, randomId);
+			List<Person> listPerson = rp.getRandomPersonsByNum(MAX_EMPLOYEES, randomId);
 			Employee emp = null;
 			int idx;
 			int c = 1;
@@ -53,7 +55,7 @@ public class EmployeesApi {
 				empList.add(emp);
 				// System.out.println(c++ + " : " + emp);
 			}
-
+			System.err.println("Employee List Size  : " + empList.size());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
