@@ -2,6 +2,7 @@ package com.aashita.random;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -26,46 +27,68 @@ import com.aashita.random.model.Person;
 @RestController
 public class EmployeesApi {
 	private static final int MAX_EMPLOYEES = 300;
-	private static ArrayList<Employee> empList = new ArrayList<Employee>();
+	Optional<String> randomId = Optional.of("true-not");
+
+	
+	private static ArrayList<Employee> empList =  new ArrayList<Employee>();
+	
 	private ArrayList<Employee> empArr = new ArrayList<Employee>();
 
 	private enum DESIGNATIONS {
 		manager, techlead, lead, developer, srdeveloper, qa, pmo, architect, scrummaster, ba
 	}
 
-	public EmployeesApi() {
+	private EmployeesApi() {
+		 getEmpList();  //create and populate list with employees.
+	}
+	
+	
+	private void getEmpList(){
 		Random ran = new Random();
 
 		try {
 			RandomPersons rp = new RandomPersons();
-			Optional<String> randomId = Optional.of("true-not");
-
+			if(randomId.get().matches("true"))
+				randomId = Optional.of("true-not");
+			else
+				randomId = Optional.of("true");
+			
 			List<Person> listPerson = rp.getRandomPersonsByNum(MAX_EMPLOYEES, randomId);
 			Employee emp = null;
 			int idx;
 			int c = 1;
 
-			for (Person p : listPerson) {
-				idx = ran.nextInt(9);
-				String randesig = "" + DESIGNATIONS.values()[idx];
-
-				emp = new Employee.Builder(p.getId()).age(ran.nextInt(59))
-						.name(p.getfName().concat(" ").concat(p.getlName())).desig(randesig).sal(ran.nextInt(200000))
-						.build();
-				empList.add(emp);
-				// System.out.println(c++ + " : " + emp);
-			}
+			 synchronized(empList) {
+				 empList.clear();
+				 for (Person p : listPerson) {
+					 idx = ran.nextInt(9);
+					 String randesig = "" + DESIGNATIONS.values()[idx];
+					 
+					 emp = new Employee.Builder(p.getId()).age(ran.nextInt(59))
+							 .name(p.getfName().concat(" ").concat(p.getlName())).desig(randesig).sal(ran.nextInt(200000))
+							 .build();
+					 empList.add(emp);
+					 // System.out.println(c++ + " : " + emp);
+				 }
+			 }
+		  
 			System.err.println("Employee List Size  : " + empList.size());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	
 	@GetMapping("/employees")
 	public @ResponseBody ArrayList<Employee> getAllEmployee() {
 		return empList;
 	}
 
+	@GetMapping("/employees/renew")
+	public @ResponseBody ArrayList<Employee> getNewEmpList(){
+		getEmpList();
+		return empList;
+	}
 
 	@GetMapping(path = "/employees/{id}")
 	public ResponseEntity<ArrayList<Employee>> getEmployee(@PathVariable int id) {
@@ -91,8 +114,10 @@ public class EmployeesApi {
 
 	@PostMapping(path = "/employees", consumes=MediaType.APPLICATION_JSON_VALUE  ,produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ArrayList<Employee>> addMemberV2(@RequestBody Employee employee) {
-
-		empList.add(employee);
+		
+		synchronized (empList) {
+			empList.add(employee);			
+		}
 		
 		empArr.clear();
 		empArr.add(employee);
@@ -115,7 +140,10 @@ public class EmployeesApi {
 		
 		if (!empList.isEmpty()) {
 			employee = empList.get(id);
-			empList.remove(id);
+
+			synchronized (empList) {
+				empList.remove(id);
+			}
 			
 		}
 		
@@ -127,24 +155,27 @@ public class EmployeesApi {
 	@PutMapping(value = "/employees/{id}", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Employee> updateEmployee(@PathVariable("id") int id, @RequestBody Employee employee) {
 		if (empList == null || empList.isEmpty()) {
-			this.empList.add(employee) ;
+			synchronized (empList) {
+				empList.add(employee);			
+			}
 		}
 		id = Math.abs(id);
 		
 		if (id < empList.size()) {
 			
-			Employee emp = empList.get(id);
-			
-			emp.setId(employee.getId());
-			emp.setName(employee.getName());
-			emp.setAge(employee.getAge());
-			emp.setDesignation(employee.getDesignation());
-			
-			try {
-				Float sal = Float.parseFloat(employee.getSalary());
-				emp.setSalary(sal.floatValue());
-			}catch (NumberFormatException e) {
-				System.err.println(e.getMessage());
+			synchronized (empList) {
+				Employee emp = empList.get(id);
+				emp.setId(employee.getId());
+				emp.setName(employee.getName());
+				emp.setAge(employee.getAge());
+				emp.setDesignation(employee.getDesignation());
+				
+				try {
+					Float sal = Float.parseFloat(employee.getSalary());
+					emp.setSalary(sal.floatValue());
+				}catch (NumberFormatException e) {
+					System.err.println(e.getMessage());
+				}
 			}
 			return new ResponseEntity<Employee>(employee, HttpStatus.OK);
 		}else {
@@ -159,5 +190,38 @@ public class EmployeesApi {
 		new EmployeesApi();
 
 	}
+	
+	//========random phone number generator=================
+	@GetMapping("/phonenumber")
+	public @ResponseBody Long getRandomPhoneNum(){
+		return PhoneNumbers.getPhoneNumber();
+	}
 
+	
+	@GetMapping("/usphonenumber")
+	public @ResponseBody String getUSRandomPhoneNum(){
+		return PhoneNumbers.getUSPhoneNumber();
+	}
+
+	@GetMapping("/usphonenumbers")
+	public @ResponseBody ArrayList<String> getUSPhoneList(){
+		ArrayList<String> phonenumlist =new ArrayList<String>();
+		phonenumlist.add(PhoneNumbers.getUSPhoneNumber());
+		phonenumlist.add(PhoneNumbers.getUSPhoneNumber());
+		phonenumlist.add(PhoneNumbers.getUSPhoneNumber());
+		phonenumlist.add(PhoneNumbers.getUSPhoneNumber());
+		phonenumlist.add(PhoneNumbers.getUSPhoneNumber());
+			return phonenumlist;
+	}
+
+	@GetMapping("/phonenumbers")
+	public @ResponseBody ArrayList<Long> getPhoneList(){
+		ArrayList<Long> phonenumlist =new ArrayList<Long>();
+		phonenumlist.add(PhoneNumbers.getPhoneNumber());
+		phonenumlist.add(PhoneNumbers.getPhoneNumber());
+		phonenumlist.add(PhoneNumbers.getPhoneNumber());
+		phonenumlist.add(PhoneNumbers.getPhoneNumber());
+		phonenumlist.add(PhoneNumbers.getPhoneNumber());
+			return phonenumlist;
+	}
 }

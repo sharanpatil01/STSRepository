@@ -9,6 +9,7 @@ import java.util.Random;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aashita.random.csv.reader.CSVFileReaderUtil;
 import com.aashita.random.model.Person;
 
+@RequestMapping("/api/v1")
 @RestController
 public class RandomPersons {
 	private static List<CSVRecord> firstnames = new ArrayList<CSVRecord>();

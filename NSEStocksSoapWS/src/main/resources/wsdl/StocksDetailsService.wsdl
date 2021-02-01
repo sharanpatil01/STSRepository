@@ -80,5 +80,5 @@
     <wsdl:port binding="tns:StocksDetailsServiceSOAP" name="StocksDetailsServiceSOAP">
       <soap:address location="http://localhost:8088/ws/stockdetails"/>
     </wsdl:port>
-  </wsdl:service>
+  </wsdl:service>
 </wsdl:definitions>
