@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aashita.random.model.Employee;
 import com.aashita.random.model.Person;
 
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/")
 @RestController
 public class EmployeesApi {
 	private static final int MAX_EMPLOYEES = 300;
@@ -47,7 +47,8 @@ public class EmployeesApi {
 		Random ran = new Random();
 
 		try {
-			RandomPersons rp = new RandomPersons();
+			//CsvRandomPersons rp = new CsvRandomPersons();
+			MemRandomPersons rp = new MemRandomPersons();
 			if(randomId.get().matches("true"))
 				randomId = Optional.of("true-not");
 			else
@@ -67,7 +68,7 @@ public class EmployeesApi {
 					 emp = new Employee.Builder(p.getId()).age(ran.nextInt(59))
 							 .name(p.getfName().concat(" ").concat(p.getlName())).desig(randesig).sal(ran.nextInt(200000))
 							 .build();
-					 empList.add(emp);
+ 					 empList.add(emp);
 					 // System.out.println(c++ + " : " + emp);
 				 }
 			 }
@@ -223,5 +224,16 @@ public class EmployeesApi {
 		phonenumlist.add(PhoneNumbers.getPhoneNumber());
 		phonenumlist.add(PhoneNumbers.getPhoneNumber());
 			return phonenumlist;
+	}
+	
+	@GetMapping("")
+	public @ResponseBody String home(){
+		return "Welcome to Random Api";
+	}
+	
+	
+	@GetMapping("/ping")
+	public @ResponseBody String ping() {
+		return "ping is successfull!";
 	}
 }

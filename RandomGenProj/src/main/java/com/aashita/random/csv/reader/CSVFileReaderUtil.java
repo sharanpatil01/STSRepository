@@ -40,7 +40,7 @@ public class CSVFileReaderUtil {
 	
 	
 	public static void main(String[] args) throws IOException {
-		
+		 
 //		readFirstNames();
 //		readLastNames();
 
@@ -52,7 +52,8 @@ public class CSVFileReaderUtil {
 	
 	public static List<CSVRecord> readFirstNames() throws IOException {
 		
-		String filename = "C:\\Users\\SHARANABASAPPAPATIL\\data\\firstnames.csv";
+		String filename = "C:\\Users\\Sharan\\git\\STSRepository\\RandomGenProj\\src\\main\\resources\\data\\firstnames.csv";
+		 
 		String[] HEADERS1 = {"firstnames"};
 		 Reader in = new StringReader("NoData");
 		 CSVParser parser = CSVFormat.DEFAULT.withHeader(HEADERS1).parse(in);
@@ -84,7 +85,7 @@ public class CSVFileReaderUtil {
 	
 	public static List<CSVRecord> readLastNames() throws IOException {
 		
-		String filename = "C:\\Users\\SHARANABASAPPAPATIL\\data\\lastnames.csv";
+		String filename = "C:\\Users\\Sharan\\git\\STSRepository\\RandomGenProj\\src\\main\\resources\\data\\lastnames.csv";
 		String[] HEADERS1 = {"lastnames"};
 		 Reader in = new StringReader("NoData");
 		 CSVParser parser = CSVFormat.DEFAULT.withHeader(HEADERS1).parse(in);
@@ -121,9 +122,10 @@ public class CSVFileReaderUtil {
 
 	public static List<CSVRecord> readSalesDataFile() throws IOException {
 		
-		String filename = "C:\\Users\\SHARANABASAPPAPATIL\\data\\1000SalesRecords.csv";
-		 Reader in = new StringReader("NoData");
-		 CSVParser parser = CSVFormat.DEFAULT.withHeader(SALES_FILE_HDR_ARRAY).withIgnoreHeaderCase().parse(in);
+		String filename = "C:\\Users\\Sharan\\git\\STSRepository\\RandomGenProj\\src\\main\\resources\\data\\1000SalesRecords.csv";
+		 
+		Reader in = new StringReader("NoData");
+		CSVParser parser = CSVFormat.DEFAULT.withHeader(SALES_FILE_HDR_ARRAY).withIgnoreHeaderCase().parse(in);
 		 
 		List<CSVRecord> list = parser.getRecords();
 		

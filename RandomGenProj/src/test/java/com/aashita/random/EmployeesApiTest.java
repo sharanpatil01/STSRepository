@@ -1,15 +1,11 @@
 package com.aashita.random;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.aashita.random.model.Employee;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class EmployeesApiTest {
 
@@ -58,7 +54,7 @@ public class EmployeesApiTest {
 	
 	private static void createEmployee()
 	{
-	    final String uri = "http://localhost:8080/employees";
+	    final String uri = "http://localhost:8080/api/v1/employees";
 	    RestTemplate restTemplate = new RestTemplate();
 	 
 	    Employee newEmployee = new Employee.Builder("3").age(44).name("Billu").desig("contractor").sal(123456).build();
@@ -70,15 +66,17 @@ public class EmployeesApiTest {
 	
 	private static void getEmployees()
 	{
-	    final String uri = "http://localhost:8080/employees";
+	    final String uri = "http://localhost:8080/api/v1/employees";
 	    RestTemplate restTemplate = new RestTemplate();
 	 
 	    String response = restTemplate.getForObject(uri, String.class);
 	 
+	    System.out.println(response);
 	    //Use the response.getBody()
 	}
 	public static void main(String[] args) {
-		createEmployee();
+//		createEmployee();
+		getEmployees();
 		//		updateEmployee();
 //		deleteEmployee();
 	}

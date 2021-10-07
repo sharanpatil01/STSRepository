@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-import com.aashita.random.RandomPersons;
+import com.aashita.random.CsvRandomPersons;
 
 public class Employee implements Serializable {
 
@@ -134,7 +134,7 @@ public class Employee implements Serializable {
 	}
 
 	public static void main(String... args) throws IOException {
-		RandomPersons rp = new RandomPersons();
+		CsvRandomPersons rp = new CsvRandomPersons();
 		Employee emp = null;
 		List<Employee> empList = new ArrayList<Employee>();
 		Optional<String> randomId = Optional.of("true");
