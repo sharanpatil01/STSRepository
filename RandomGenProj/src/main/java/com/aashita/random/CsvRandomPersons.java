@@ -17,80 +17,78 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aashita.random.csv.reader.CSVFileReaderUtil;
 import com.aashita.random.model.Person;
 
-@RequestMapping("/api/v1")
+@RequestMapping("/api/csv/v1")
 @RestController
-public class RandomPersons {
+public class CsvRandomPersons {
 	private static List<CSVRecord> firstnames = new ArrayList<CSVRecord>();
-	private static List<CSVRecord> lastnames =  new ArrayList<CSVRecord>();
+	private static List<CSVRecord> lastnames = new ArrayList<CSVRecord>();
 	static int RPObjectCalled = 0;
-	
-	public RandomPersons() throws IOException{
+
+	public CsvRandomPersons() throws IOException {
 		firstnames = CSVFileReaderUtil.readFirstNames();
-		lastnames =  CSVFileReaderUtil.readLastNames();
+		lastnames = CSVFileReaderUtil.readLastNames();
+
 	}
-	
+
 	public static void main(String[] args) throws IOException {
-		RandomPersons rp = new RandomPersons();
-		
+		CsvRandomPersons rp = new CsvRandomPersons();
+
 		List<Person> listp = new ArrayList<Person>();
 		listp = rp.getPersons(20, true);
-		
-		for(Person p: listp) {
+
+		for (Person p : listp) {
 			System.out.println(p);
 		}
 	}
 
-		
-
-	  @GetMapping("/persons")
-	  public @ResponseBody List<Person> getRandomPerson() throws IOException{
+	@GetMapping("/persons")
+	public @ResponseBody List<Person> getRandomPerson() throws IOException {
 //		  System.out.println("RPObjectCalled = " + RPObjectCalled++  +";  RandomPersons = "+ this.hashCode() + ";  " + this.firstnames.hashCode());
-		  return getPersons(1, true);
-	  }
-	  
+		return getPersons(1, true);
+	}
 
-	  @GetMapping(path="/persons/{count}")
-	  public @ResponseBody List<Person> getRandomPersonsByNum(@PathVariable (value = "count") int count, @RequestParam  Optional<String> randomId ) throws IOException{
-		
-		
+	@GetMapping(path = "/persons/{count}")
+	public @ResponseBody List<Person> getRandomPersonsByNum(@PathVariable(value = "count") int count,
+			@RequestParam Optional<String> randomId) throws IOException {
+
 		boolean randomIdGenerate = false;
 		randomIdGenerate = randomId.orElse("false").equalsIgnoreCase("true");
 //		System.out.println( "randomIdGenerate  = " + randomIdGenerate);
-		
+
 //		System.out.println("RPObjectCalled = " + RPObjectCalled++  +";  RandomPersons = "+ this.hashCode()+ ";  " + this.firstnames.hashCode());
 		return getPersons(count, randomIdGenerate);
-	  }
-	  
-	
-	  private List<Person> getPersons(int num, boolean randomIdGenerate) throws IOException {
-		
+	}
+
+	private List<Person> getPersons(int num, boolean randomIdGenerate) throws IOException {
+
 		String fname, lname;
 		List<Person> lp = new ArrayList<Person>();
 		Random random = new Random();
 		CSVRecord fnrecord, lnrecord;
-		int fnSize = RandomPersons.firstnames.size();
-		int lnSize = RandomPersons.lastnames.size();
-		
+		int fnSize = CsvRandomPersons.firstnames.size();
+		int lnSize = CsvRandomPersons.lastnames.size();
+
 		Person person = new Person();
-		
-		for(int c=0; c<num; c++) {
-			fnrecord = RandomPersons.firstnames.get(random.nextInt(fnSize));
-			lnrecord = RandomPersons.lastnames.get(random.nextInt(lnSize));
-			
+
+		for (int c = 0; c < num; c++) {
+
+			fnrecord = CsvRandomPersons.firstnames.get(random.nextInt(fnSize));
+			lnrecord = CsvRandomPersons.lastnames.get(random.nextInt(lnSize));
+
 			fname = fnrecord.get(CSVFileReaderUtil.FIRSTNAME_HEADER.firstnames);
 			lname = lnrecord.get(CSVFileReaderUtil.LASTNAME_HEADER.lastnames);
-			
-			  
+
 			person = new Person(fname, lname);
 			if (randomIdGenerate)
 				person.setId(random.nextInt(10000) + "");
 			else
-				person.setId((c+1)+"");
-			
+				person.setId((c + 1) + "");
+
 //			System.out.println("getPersons(" + (c+1) + "): >>>>\tid : "+ person.getId() + ", firstname : " +  fname + ", lastname : "+  lname );
 			lp.add(person);
 		}
-		
+
 		return lp;
 	}
+
 }
