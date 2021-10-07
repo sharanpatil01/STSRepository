@@ -12,7 +12,7 @@ public class EmployeesApiTest {
 	
 	private static void deleteEmployee()
 	{
-	    final String uri = "http://localhost:8080/employees/1";
+	    final String uri = "http://localhost:8080/api/v1/employees/1";
 	    RestTemplate restTemplate = new RestTemplate();
 	     
 	    Map<String, String> params = new HashMap<String, String>();
@@ -24,7 +24,7 @@ public class EmployeesApiTest {
 
 	private static void updateEmployee() 
 	{
-	    final String uri = "http://localhost:8080/employees/2";
+	    final String uri = "http://localhost:8080/api/v1/employees/2";
 	    RestTemplate restTemplate = new RestTemplate();
 	     
 	    Map<String, String> params = new HashMap<String, String>();
