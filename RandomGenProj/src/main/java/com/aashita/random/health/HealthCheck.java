@@ -24,7 +24,7 @@ public class HealthCheck extends Thread {
 
 	public static  String appDuration() {
 		Duration duration =  Duration.between(appStartDt, Instant.now()) ;
-		String dur = 	duration.toMillis()/1000 + " milli seconds.";
+		String dur = 	duration.toMillis()/1000 + " seconds.";
 		System.out.println(callctr++ +". RandomGen-App is up and running from : " + dur );
 		
 		return dur;
