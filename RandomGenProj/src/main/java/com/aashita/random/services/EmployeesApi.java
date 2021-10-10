@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aashita.random.health.HealthCheck;
 import com.aashita.random.model.Employee;
 import com.aashita.random.model.Person;
 
@@ -82,6 +83,7 @@ public class EmployeesApi {
 	
 	@GetMapping("/employees")
 	public @ResponseBody ArrayList<Employee> getAllEmployee() {
+		HealthCheck.appDuration();
 		return empList;
 	}
 
@@ -93,6 +95,7 @@ public class EmployeesApi {
 
 	@GetMapping(path = "/employees/{id}")
 	public ResponseEntity<ArrayList<Employee>> getEmployee(@PathVariable int id) {
+		HealthCheck.appDuration();
 		empArr = new ArrayList<Employee>();
 		if (empList == null || empList.isEmpty()) {
 			System.out.println("emplist is empty or null!");

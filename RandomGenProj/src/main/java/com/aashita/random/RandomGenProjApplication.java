@@ -10,11 +10,9 @@ public class RandomGenProjApplication {
 
 	
 	public static void main(String[] args) {
-		HealthCheck th = new HealthCheck();
 		SpringApplication.run(RandomGenProjApplication.class, args);
-		System.out.println("1. RandomGen-app is started...  : " + th.appStartDt );
-		
-		th.start();
+		System.out.println("1. RandomGen-app is started...  : " + (new HealthCheck()).appStartDt );
+		HealthCheck.appDuration();
 	}
 
 }
