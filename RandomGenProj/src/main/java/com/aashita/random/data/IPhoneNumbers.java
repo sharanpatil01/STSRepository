@@ -1,4 +1,4 @@
-package com.aashita.random;
+package com.aashita.random.data;
 
 public interface IPhoneNumbers {
 	

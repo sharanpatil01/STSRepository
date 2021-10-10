@@ -1,4 +1,4 @@
-package com.aashita.random;
+package com.aashita.random.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
